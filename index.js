@@ -20,7 +20,7 @@ app.listen(PORT, () => console.log('API running on port 4040'))
 
 app.get('/', async (req, res) => {
   const allProducts = await products.find().toArray()
-  res.json('here there ')
+  res.send(allProducts)
 })
 
 app.post('/', async (req, res) => {
