@@ -2,11 +2,13 @@ import express from 'express'
 import cors from 'cors'
 import { MongoClient, ObjectId } from 'mongodb'
 import 'dotenv/config'
+import { addUser, loginUser } from './users.js'
 
 const URI = process.env.MONGO_URI
 const client = new MongoClient(URI)
 const database = client.db('shopping-app')
 const products = database.collection('products')
+export const users = database.collection('users')
 
 client.connect()
 console.log('connected to mongo')
@@ -33,6 +35,9 @@ app.post('/', async (req, res) => {
 	await products.insertOne(req.body)
 	res.json('Item was added')
 })
+
+app.post('/signup', addUser)
+app.post('/login', loginUser)
 
 app.delete('/', async (req, res) => {
 	await products.findOneAndDelete(req.query)
